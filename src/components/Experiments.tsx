@@ -1,79 +1,71 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 
 const galleryShots = [
   {
     id: "g1",
-    title: "Edge of Monsoon",
-    location: "Kaziranga, Assam",
+    title: "Urban Canvas",
+    location: "City Streets",
     year: "2024",
     description:
-      "A tusker cuts through the mist as monsoon light breaks over the floodplains.",
-    gear: "Sony A1 · 200mm · ƒ2.8 · 1/640 · ISO 500",
-    image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=2000&q=80",
+      "Capturing the rhythm of urban life through candid moments and architectural details.",
+    gear: "Nikon D500 · 300mm · ƒ5.6",
+    image: "/images/abc.jpg",
   },
   {
     id: "g2",
-    title: "Nocturne Patrol",
-    location: "Ranthambore, Rajasthan",
-    year: "2023",
+    title: "Natural Harmony",
+    location: "Nature Reserve",
+    year: "2024",
     description:
-      "A dominant tigress emerging from the ravines under sodium vapor spill.",
-    gear: "Canon R5 · 85mm · ƒ1.2 · 1/200 · ISO 1600",
-    image:
-      "https://images.unsplash.com/photo-1535930749574-1399327ce78f?auto=format&fit=crop&w=2000&q=80",
+      "Exploring the vibrant greens and textures found in natural landscapes and foliage.",
+    gear: "Nikon D500 · 300mm · ƒ5.6",
+    image: "/images/green.jpg",
   },
   {
     id: "g3",
-    title: "Sarus Dawn",
-    location: "Keoladeo, Bharatpur",
-    year: "2022",
+    title: "Portrait Essence",
+    location: "Studio Session",
+    year: "2024",
     description:
-      "Cranes pairing rituals against evaporating winter fog at daybreak.",
-    gear: "Nikon Z8 · 400mm · ƒ4 · 1/1250 · ISO 320",
-    image:
-      "https://images.unsplash.com/photo-1501706362039-c6e08e4b9db0?auto=format&fit=crop&w=2000&q=80",
+      "A study in expression and light, revealing character through subtle details and composition.",
+    gear: "Nikon D500 · 300mm · ƒ5.6",
+    image: "/images/ig3.jpg",
   },
   {
     id: "g4",
-    title: "Canopy Vigil",
-    location: "Anamalai Tiger Reserve",
+    title: "Social Moments",
+    location: "Event Photography",
     year: "2024",
     description:
-      "Lion-tailed macaque scouts the monsoon valley from strangler fig roots.",
-    gear: "Fujifilm GFX100S · 120mm · ƒ4 · 1/500 · ISO 800",
-    image:
-      "https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?auto=format&fit=crop&w=2000&q=80",
+      "Documenting authentic interactions and the energy of shared experiences.",
+    gear: "Nikon D500 · 300mm · ƒ5.6",
+    image: "/images/insta 1.jpg",
   },
   {
     id: "g5",
-    title: "Desert Mirage",
-    location: "Little Rann of Kutch",
-    year: "2021",
+    title: "Creative Vision",
+    location: "Artistic Project",
+    year: "2024",
     description:
-      "Wild asses sprint through heat trails reflecting the burnt gold horizon.",
-    gear: "Sony A7R V · 70mm · ƒ2.8 · 1/3200 · ISO 200",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2000&q=80",
+      "An experimental approach to composition, color, and visual storytelling.",
+    gear: "Nikon D500 · 300mm · ƒ5.6",
+    image: "/images/prenia.jpg",
   },
   {
     id: "g6",
-    title: "Rainforest Chorus",
-    location: "Sharavathi Valley",
-    year: "2023",
+    title: "Street Narrative",
+    location: "Urban Exploration",
+    year: "2024",
     description:
-      "Bioluminescence from night fungi framing a Malabar gliding frog.",
-    gear: "Canon R6 II · 35mm · ƒ1.4 · 1/50 · ISO 1250",
-    image:
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2000&q=80",
+      "Finding beauty in everyday scenes and the stories that unfold in public spaces.",
+    gear: "Nikon D500 · 300mm · ƒ5.6",
+    image: "/images/scally 2.jpg",
   },
 ];
-
-const marqueeDuration = 32;
 
 export default function Experiments() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -87,20 +79,11 @@ export default function Experiments() {
   }, []);
 
   const activeShot = galleryShots[activeIndex];
-  const marqueeShots = useMemo(
-    () =>
-      [...galleryShots, ...galleryShots].map((shot, idx) => ({
-        ...shot,
-        duplicatedId: `${shot.id}-${idx}`,
-        baseIndex: idx % galleryShots.length,
-      })),
-    []
-  );
 
   return (
     <section
       id="photography"
-      className="relative w-full overflow-hidden bg-black text-white pt-14 pb-28 sm:pt-16 sm:pb-20 lg:pt-24 lg:pb-24 min-h-[75vh] sm:min-h-[80vh] lg:min-h-[640px]"
+      className="relative w-full overflow-hidden bg-white dark:bg-black text-black dark:text-white h-screen"
     >
       <div className="absolute inset-0">
         <AnimatePresence mode="wait">
@@ -120,98 +103,56 @@ export default function Experiments() {
               sizes="100vw"
               className="object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/90" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
+            {/* Edge fading gradients - top and bottom only */}
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white via-white/50 to-transparent dark:from-black dark:via-black/50 dark:to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/50 to-transparent dark:from-black dark:via-black/50 dark:to-transparent" />
           </motion.div>
         </AnimatePresence>
       </div>
 
       <div className="relative z-10 flex h-full flex-col overflow-hidden gap-10 px-4 sm:px-8 lg:px-20">
         <div className="max-w-3xl">
-          <p className="uppercase tracking-[0.35em] sm:tracking-[0.45em] text-[0.6rem] sm:text-xs text-white/60">
+          <p className="uppercase tracking-[0.35em] sm:tracking-[0.45em] text-[0.6rem] sm:text-xs text-black/60 dark:text-white/60">
             photography
           </p>
-          <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-[var(--font-bruno)]">
+          <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-[var(--font-bruno)] text-black dark:text-white">
             Living Archives
           </h2>
-          <p className="mt-6 text-sm sm:text-base text-white/80 leading-relaxed sm:leading-relaxed">
-            A fluid reel of wildlife narratives photographed across India’s
-            biomes. Each frame holds field notes, light obsessions, and the craft
-            muscle that informs my commissions.
+          <p className="mt-6 text-sm sm:text-base text-black/80 dark:text-white/80 leading-relaxed sm:leading-relaxed">
+            A curated collection of moments captured through the lens. Each frame
+            represents a unique perspective, technical precision, and the creative
+            vision that drives my photographic work.
           </p>
         </div>
 
-        <div className="mt-10 sm:mt-14 lg:mt-auto grid min-h-[280px] items-stretch gap-5 sm:gap-6 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
-          <div className="flex h-full flex-col justify-between gap-6 rounded-3xl border border-white/20 bg-black/60 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_25px_80px_rgba(0,0,0,0.55)]">
+        <div className="mt-10 sm:mt-14 lg:mt-auto flex items-end justify-start">
+          <div className="flex h-full flex-col justify-between gap-6 rounded-3xl border border-black/20 dark:border-white/20 bg-white/80 dark:bg-black/60 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_25px_80px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_80px_rgba(0,0,0,0.55)] max-w-md">
             <div>
-              <div className="flex items-center justify-between text-[0.6rem] sm:text-xs uppercase tracking-[0.25em] text-white/50">
+              <div className="flex items-center justify-between text-[0.6rem] sm:text-xs uppercase tracking-[0.25em] text-black/50 dark:text-white/50">
                 <span className="whitespace-nowrap">{activeShot.year}</span>
                 <span className="text-right">{activeShot.location}</span>
               </div>
-              <h3 className="mt-5 text-2xl sm:text-3xl font-semibold">{activeShot.title}</h3>
-              <p className="mt-4 text-sm sm:text-base leading-relaxed text-white/80">
+              <h3 className="mt-5 text-2xl sm:text-3xl font-semibold text-black dark:text-white">{activeShot.title}</h3>
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-black/80 dark:text-white/80">
                 {activeShot.description}
               </p>
             </div>
             <div>
-              <p className="text-xs font-mono text-white/60">{activeShot.gear}</p>
-              <div className="mt-6 flex flex-wrap gap-2 sm:gap-3 text-[0.6rem] sm:text-xs uppercase tracking-[0.3em] text-white/60">
+              <p className="text-xs font-mono text-black/60 dark:text-white/60">{activeShot.gear}</p>
+              <div className="mt-6 flex flex-wrap gap-2 sm:gap-3 text-[0.6rem] sm:text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60">
                 {galleryShots.map((shot, idx) => (
                   <button
                     key={shot.id}
                     onClick={() => setActiveIndex(idx)}
-                    className={`h-10 w-10 rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                    className={`h-10 w-10 rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white ${
                       idx === activeIndex
-                        ? "border-white bg-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.3)]"
-                        : "border-white/30 hover:border-white/60"
+                        ? "border-black dark:border-white bg-black/10 dark:bg-white/10 shadow-[0_0_0_1px_rgba(0,0,0,0.3)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]"
+                        : "border-black/30 dark:border-white/30 hover:border-black/60 dark:hover:border-white/60"
                     }`}
                     aria-label={`Show ${shot.title}`}
                   />
                 ))}
               </div>
-            </div>
-          </div>
-
-          <div className="relative h-full overflow-hidden rounded-3xl border border-white/15 bg-black/30 backdrop-blur-xl">
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-28 bg-gradient-to-b from-black via-black/40 to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-28 bg-gradient-to-t from-black via-black/40 to-transparent" />
-            <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-r from-black to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-l from-black to-transparent" />
-
-            <div className="h-full overflow-hidden">
-              <motion.div
-                className="flex h-full gap-3 sm:gap-4"
-                animate={{ x: ["0%", "-50%"] }}
-                transition={{
-                  duration: marqueeDuration,
-                  ease: "linear",
-                  repeat: Infinity,
-                }}
-              >
-                {marqueeShots.map((shot) => (
-                  <button
-                    key={shot.duplicatedId}
-                    onClick={() => setActiveIndex(shot.baseIndex)}
-                    className="group relative h-full min-h-[220px] sm:min-h-[240px] w-40 sm:w-48 overflow-hidden rounded-2xl border border-white/15 bg-white/5"
-                    aria-label={`Open ${shot.title}`}
-                  >
-                    <Image
-                      src={shot.image}
-                      alt={shot.title}
-                      fill
-                      sizes="192px"
-                      className="object-cover object-center transition duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
-                    <div className="absolute inset-x-3 bottom-3 text-left text-white">
-                      <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                        {shot.location}
-                      </p>
-                      <p className="text-base font-semibold">{shot.title}</p>
-                    </div>
-                  </button>
-                ))}
-              </motion.div>
             </div>
           </div>
         </div>
