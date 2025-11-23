@@ -1,141 +1,263 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import {
+  GiEagleEmblem,
+  GiHummingbird,
+  GiOwl,
+  GiParrotHead,
+  GiFlamingo,
+  GiSparrow,
+  GiDove,
+  GiHawkEmblem,
+  GiRaven,
+  GiDuck,
+} from "react-icons/gi";
 
 const galleryShots = [
   {
     id: "g1",
-    title: "Urban Canvas",
-    location: "City Streets",
+    title: "Asian Green Bee Eater",
+    location: "Paschim Medinipur, West Bengal",
     year: "2024",
     description:
-      "Capturing the rhythm of urban life through candid moments and architectural details.",
+      "A vibrant capture of the Asian Green Bee Eater in its natural habitat, showcasing the brilliant emerald plumage and graceful hunting posture of this aerial acrobat.",
     gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/abc.jpg",
+    image: "/images/Asian Green Bee Eater , Paschim Medinipur , West Bengal.jpg",
+    iconIndex: 1, // Hummingbird - for small, agile birds
   },
   {
     id: "g2",
-    title: "Natural Harmony",
-    location: "Nature Reserve",
+    title: "Hoopoe Portrait",
+    location: "West Bengal",
     year: "2024",
     description:
-      "Exploring the vibrant greens and textures found in natural landscapes and foliage.",
+      "An intimate portrait of the distinctive Hoopoe, capturing its unique crown of feathers and intricate patterns that make it one of nature's most elegant birds.",
     gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/green.jpg",
+    image: "/images/Hoopie ,West Bengal.jpg",
+    iconIndex: 4, // Flamingo - for distinctive, elegant birds
   },
   {
     id: "g3",
-    title: "Portrait Essence",
-    location: "Studio Session",
+    title: "Kalimpong Landscape",
+    location: "Kalimpong, West Bengal",
     year: "2024",
     description:
-      "A study in expression and light, revealing character through subtle details and composition.",
-    gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/ig3.jpg",
+      "A breathtaking vista of Kalimpong's rolling hills and misty valleys, capturing the serene beauty of the Eastern Himalayas in perfect harmony.",
+    gear: "Nikon D500 · 24-70mm · ƒ8",
+    image: "/images/Landscape KalingPong.jpg",
+    iconIndex: 6, // Dove - for peaceful landscapes
   },
   {
     id: "g4",
-    title: "Social Moments",
-    location: "Event Photography",
+    title: "Tista River Valley",
+    location: "Sikkim Valley",
     year: "2024",
     description:
-      "Documenting authentic interactions and the energy of shared experiences.",
-    gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/insta 1.jpg",
+      "The majestic Tista River winding through the Sikkim Valley, framed by lush mountains and dramatic cloud formations that define this Himalayan region.",
+    gear: "Nikon D500 · 24-70mm · ƒ8",
+    image: "/images/Landscape Tista River and Sikkim Vally.jpg",
+    iconIndex: 6, // Dove - for peaceful landscapes
   },
   {
     id: "g5",
-    title: "Creative Vision",
-    location: "Artistic Project",
+    title: "Prenia Portrait",
+    location: "West Bengal",
     year: "2024",
     description:
-      "An experimental approach to composition, color, and visual storytelling.",
-    gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/prenia.jpg",
+      "A compelling portrait session capturing emotion and character through careful composition, natural lighting, and authentic expression.",
+    gear: "Nikon D500 · 85mm · ƒ2.8",
+    image: "/images/Prenia  West Bengal.jpg",
+    iconIndex: 3, // Parrot - for colorful portraits
   },
   {
     id: "g6",
-    title: "Street Narrative",
-    location: "Urban Exploration",
+    title: "Purple Sunbird",
+    location: "West Bengal",
     year: "2024",
     description:
-      "Finding beauty in everyday scenes and the stories that unfold in public spaces.",
+      "The iridescent beauty of the Purple Sunbird captured in stunning detail, showcasing its vibrant plumage that shimmers like liquid amethyst in the sunlight.",
     gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/scally 2.jpg",
+    image: "/images/Purple Snbird , WestBengal.jpg",
+    iconIndex: 1, // Hummingbird - for sunbirds
   },
   {
     id: "g7",
-    title: "Hoopie Portrait",
-    location: "Portrait Session",
+    title: "Scaly-breasted Munia",
+    location: "West Bengal",
     year: "2024",
     description:
-      "A compelling portrait that captures personality and emotion through careful composition and lighting.",
+      "A detailed study of the Scaly-breasted Munia, highlighting the intricate scale-like patterns on its breast and the delicate beauty of this small finch.",
     gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/hoopie main.jpg",
+    image: "/images/Scally Brested Munia.jpg",
+    iconIndex: 5, // Sparrow - for small finches
   },
   {
     id: "g8",
-    title: "Identity Frame",
-    location: "Studio Work",
+    title: "Scorpion in Motion",
+    location: "West Bengal",
     year: "2024",
     description:
-      "Exploring identity and expression through thoughtful portraiture and visual narrative.",
-    gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/id.jpg",
+      "An experimental slow-shutter capture revealing the scorpion's movement through time, creating an ethereal trail that showcases both technical skill and creative vision.",
+    gear: "Nikon D500 · 105mm Macro · ƒ11 · 1/4s",
+    image: "/images/Scorpion Slow Shutter.jpg",
+    iconIndex: 9, // Duck - for unique/experimental shots
   },
   {
     id: "g9",
-    title: "Nocturnal Hunter",
-    location: "Wildlife Photography",
+    title: "Shrike Perched",
+    location: "West Bengal",
     year: "2024",
     description:
-      "Capturing the majesty of nocturnal wildlife in their natural habitat with precision and patience.",
+      "The formidable Shrike captured in its characteristic hunting pose, showcasing the fierce beauty and predatory elegance of this small but powerful bird of prey.",
     gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/OWL4.jpg",
+    image: "/images/Shrike.jpg",
+    iconIndex: 7, // Hawk - for birds of prey
   },
   {
     id: "g10",
-    title: "Desert Dweller",
-    location: "Nature Photography",
+    title: "Spotted Owl",
+    location: "Paschim Medinipur, West Bengal",
     year: "2024",
     description:
-      "A close encounter with one of nature's most fascinating creatures, showcasing intricate details and natural beauty.",
+      "The enigmatic Spotted Owl in its natural habitat, with piercing eyes and intricate feather patterns that speak to the mystery and wisdom of nocturnal hunters.",
     gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/SCORPION.jpg",
+    image: "/images/Spotted Owl ,PaschimMedinipur,West Bengal.jpg",
+    iconIndex: 2, // Owl - perfect match
   },
   {
     id: "g11",
-    title: "Avian Grace",
-    location: "Bird Photography",
+    title: "Sun Bird",
+    location: "West Bengal",
     year: "2024",
     description:
-      "Freezing a moment of natural elegance as birds interact with their environment in perfect harmony.",
+      "A radiant capture of the Sun Bird, its brilliant colors reflecting the warmth of daylight as it hovers near nectar-rich blossoms in perfect balance.",
     gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/subirdaa.jpg",
+    image: "/images/Sun Bird.jpg",
+    iconIndex: 1, // Hummingbird - for sunbirds
   },
   {
     id: "g12",
-    title: "Sun Bird",
-    location: "Wildlife Reserve",
+    title: "Sunbird in Bloom",
+    location: "West Bengal",
     year: "2024",
     description:
-      "A vibrant capture of avian beauty, highlighting the brilliant colors and dynamic movement of nature's winged wonders.",
+      "The delicate Sunbird suspended in mid-air, its vibrant plumage creating a living jewel against the soft backdrop of tropical flowers and foliage.",
     gear: "Nikon D500 · 300mm · ƒ5.6",
-    image: "/images/Sun Bird.jpg",
+    image: "/images/Sunbird  , West Bengal.jpg",
+    iconIndex: 1, // Hummingbird - for sunbirds
   },
+  {
+    id: "g13",
+    title: "Taiga Flycatcher",
+    location: "West Bengal",
+    year: "2024",
+    description:
+      "A migratory beauty, the Taiga Flycatcher captured during its seasonal journey, showcasing the subtle elegance and refined colors of this forest-dwelling songbird.",
+    gear: "Nikon D500 · 300mm · ƒ5.6",
+    image: "/images/Taiga Flycatcher, WestBengal.jpg",
+    iconIndex: 5, // Sparrow - for small songbirds
+  },
+  {
+    id: "g14",
+    title: "Whiskered Yuhina",
+    location: "Kalimpong, West Bengal",
+    year: "2024",
+    description:
+      "The charming Whiskered Yuhina in the misty forests of Kalimpong, its distinctive facial markings and social nature captured in a moment of natural behavior.",
+    gear: "Nikon D500 · 300mm · ƒ5.6",
+    image: "/images/Whiskered Yuhina , kalimpong.jpg",
+    iconIndex: 5, // Sparrow - for small social birds
+  },
+];
+
+const birdIcons = [
+  { icon: GiEagleEmblem, name: "Eagle" },
+  { icon: GiHummingbird, name: "Hummingbird" },
+  { icon: GiOwl, name: "Owl" },
+  { icon: GiParrotHead, name: "Parrot" },
+  { icon: GiFlamingo, name: "Flamingo" },
+  { icon: GiSparrow, name: "Sparrow" },
+  { icon: GiDove, name: "Dove" },
+  { icon: GiHawkEmblem, name: "Hawk" },
+  { icon: GiRaven, name: "Raven" },
+  { icon: GiDuck, name: "Duck" },
+];
+
+// Dynamic color palette with light, vibrant colors
+const dynamicColors = [
+  "rgba(255, 182, 193, 0.3)", // Light Pink
+  "rgba(173, 216, 230, 0.3)", // Light Blue
+  "rgba(255, 228, 196, 0.3)", // Bisque
+  "rgba(221, 160, 221, 0.3)", // Plum
+  "rgba(152, 251, 152, 0.3)", // Pale Green
+  "rgba(255, 218, 185, 0.3)", // Peach
+  "rgba(176, 224, 230, 0.3)", // Powder Blue
+  "rgba(255, 192, 203, 0.3)", // Pink
+  "rgba(230, 230, 250, 0.3)", // Lavender
+  "rgba(255, 250, 205, 0.3)", // Lemon Chiffon
 ];
 
 export default function Experiments() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [birdColors, setBirdColors] = useState<number[]>([]);
+  const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
+  const carouselTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Carousel auto-rotation
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % galleryShots.length);
-    }, 5200);
+    const startCarousel = () => {
+      // Clear any existing timer
+      if (carouselTimerRef.current) {
+        clearInterval(carouselTimerRef.current);
+      }
+      
+      // Start new timer
+      carouselTimerRef.current = setInterval(() => {
+        setDirection(1);
+        setActiveIndex((prev) => (prev + 1) % galleryShots.length);
+      }, 4000); // 4 seconds display time
+    };
 
-    return () => clearInterval(timer);
+    startCarousel();
+
+    return () => {
+      if (carouselTimerRef.current) {
+        clearInterval(carouselTimerRef.current);
+      }
+    };
+  }, []);
+
+  const handleIndexChange = (newIndex: number) => {
+    setDirection(newIndex > activeIndex ? 1 : -1);
+    setActiveIndex(newIndex);
+    
+    // Restart carousel timer after manual interaction
+    if (carouselTimerRef.current) {
+      clearInterval(carouselTimerRef.current);
+    }
+    carouselTimerRef.current = setInterval(() => {
+      setDirection(1);
+      setActiveIndex((prev) => (prev + 1) % galleryShots.length);
+    }, 4000);
+  };
+
+  // Initialize and animate bird colors with smooth transitions
+  useEffect(() => {
+    // Initialize random colors for each bird
+    const initialColors = birdIcons.map(() => Math.floor(Math.random() * dynamicColors.length));
+    setBirdColors(initialColors);
+
+    // Animate colors periodically with smooth transitions
+    const colorTimer = setInterval(() => {
+      setBirdColors((prev) =>
+        prev.map(() => Math.floor(Math.random() * dynamicColors.length))
+      );
+    }, 3500); // Smooth interval for color transitions
+
+    return () => clearInterval(colorTimer);
   }, []);
 
   const activeShot = galleryShots[activeIndex];
@@ -145,27 +267,98 @@ export default function Experiments() {
       id="photography"
       className="relative w-full overflow-hidden bg-white dark:bg-black text-black dark:text-white min-h-screen lg:h-screen"
     >
-      <div className="absolute inset-0">
-        <AnimatePresence mode="wait">
+      <div className="absolute inset-0 overflow-hidden" style={{ perspective: "1000px" }}>
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={activeShot.image}
-            initial={{ opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
+            initial={{ 
+              opacity: 0, 
+              scale: 1.08,
+              filter: "blur(8px) brightness(0.8)",
+              x: direction * 30,
+              rotateY: direction * 5,
+            }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1,
+              filter: "blur(0px) brightness(1)",
+              x: 0,
+              rotateY: 0,
+            }}
+            exit={{ 
+              opacity: 0, 
+              scale: 0.95,
+              filter: "blur(6px) brightness(0.9)",
+              x: -direction * 30,
+              rotateY: -direction * 5,
+            }}
+            transition={{ 
+              duration: 0.7,
+              ease: [0.4, 0, 0.2, 1],
+              opacity: { 
+                duration: 0.6,
+                ease: [0.4, 0, 0.2, 1],
+              },
+              scale: { 
+                duration: 0.7,
+                ease: [0.4, 0, 0.2, 1],
+              },
+              filter: { 
+                duration: 0.6,
+                ease: [0.4, 0, 0.2, 1],
+              },
+              x: {
+                duration: 0.7,
+                ease: [0.4, 0, 0.2, 1],
+              },
+              rotateY: {
+                duration: 0.7,
+                ease: [0.4, 0, 0.2, 1],
+              },
+            }}
+            style={{ transformStyle: "preserve-3d" }}
             className="absolute inset-0"
           >
-            <Image
-              src={activeShot.image}
-              alt={activeShot.title}
-              fill
-              priority
-              sizes="100vw"
-              className="object-contain sm:object-cover object-center"
+            <motion.div
+              className="absolute inset-0"
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{
+                duration: 0.7,
+                ease: [0.4, 0, 0.2, 1],
+              }}
+            >
+              <Image
+                src={activeShot.image}
+                alt={activeShot.title}
+                fill
+                priority
+                sizes="100vw"
+                className="object-contain sm:object-cover object-center"
+              />
+            </motion.div>
+            
+            {/* Enhanced edge fading gradients with smooth transitions */}
+            <motion.div 
+              className="absolute inset-x-0 top-0 h-24 sm:h-32 bg-gradient-to-b from-white via-white/50 to-transparent dark:from-black dark:via-black/50 dark:to-transparent"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
             />
-            {/* Edge fading gradients - top and bottom only */}
-            <div className="absolute inset-x-0 top-0 h-24 sm:h-32 bg-gradient-to-b from-white via-white/50 to-transparent dark:from-black dark:via-black/50 dark:to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 bg-gradient-to-t from-white via-white/50 to-transparent dark:from-black dark:via-black/50 dark:to-transparent" />
+            <motion.div 
+              className="absolute inset-x-0 bottom-0 h-24 sm:h-32 bg-gradient-to-t from-white via-white/50 to-transparent dark:from-black dark:via-black/50 dark:to-transparent"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+            />
+            
+            {/* Subtle overlay for depth */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/5 dark:to-white/5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -185,33 +378,221 @@ export default function Experiments() {
           </p>
         </div>
 
+
         <div className="mt-auto flex items-end justify-start pb-3 sm:pb-6 lg:pb-0">
           <div className="flex flex-col justify-between gap-2 sm:gap-4 lg:gap-6 rounded-xl sm:rounded-2xl lg:rounded-3xl border border-black/20 dark:border-white/20 bg-white/90 dark:bg-black/70 p-2.5 sm:p-5 lg:p-6 backdrop-blur-2xl shadow-[0_25px_80px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_80px_rgba(0,0,0,0.55)] w-full max-w-[85%] sm:max-w-sm lg:max-w-md">
-            <div>
-              <div className="flex items-center justify-between text-[0.5rem] sm:text-[0.6rem] lg:text-xs uppercase tracking-[0.15em] sm:tracking-[0.25em] text-black/50 dark:text-white/50">
-                <span className="whitespace-nowrap">{activeShot.year}</span>
-                <span className="text-right text-[0.5rem] sm:text-[0.6rem] lg:text-xs">{activeShot.location}</span>
-              </div>
-              <h3 className="mt-1.5 sm:mt-4 lg:mt-5 text-sm sm:text-xl lg:text-2xl xl:text-3xl font-semibold text-black dark:text-white">{activeShot.title}</h3>
-              <p className="mt-1.5 sm:mt-3 lg:mt-4 text-[0.65rem] sm:text-sm lg:text-base leading-tight sm:leading-relaxed text-black/80 dark:text-white/80 line-clamp-2 sm:line-clamp-none">
-                {activeShot.description}
-              </p>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeShot.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{
+                  duration: 0.6,
+                  ease: [0.4, 0, 0.2, 1],
+                }}
+              >
+                <div className="flex items-center justify-between text-[0.5rem] sm:text-[0.6rem] lg:text-xs uppercase tracking-[0.15em] sm:tracking-[0.25em] text-black/50 dark:text-white/50">
+                  <motion.span 
+                    className="whitespace-nowrap"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1, duration: 0.5 }}
+                  >
+                    {activeShot.year}
+                  </motion.span>
+                  <motion.span 
+                    className="text-right text-[0.5rem] sm:text-[0.6rem] lg:text-xs"
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1, duration: 0.5 }}
+                  >
+                    {activeShot.location}
+                  </motion.span>
+                </div>
+                <motion.h3 
+                  className="mt-1.5 sm:mt-4 lg:mt-5 text-sm sm:text-xl lg:text-2xl xl:text-3xl font-semibold text-black dark:text-white"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  {activeShot.title}
+                </motion.h3>
+                <motion.p 
+                  className="mt-1.5 sm:mt-3 lg:mt-4 text-[0.65rem] sm:text-sm lg:text-base leading-tight sm:leading-relaxed text-black/80 dark:text-white/80 line-clamp-2 sm:line-clamp-none"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  {activeShot.description}
+                </motion.p>
+              </motion.div>
+            </AnimatePresence>
             <div>
               <p className="text-[0.6rem] sm:text-xs font-mono text-black/60 dark:text-white/60">{activeShot.gear}</p>
               <div className="hidden sm:flex mt-2.5 sm:mt-5 lg:mt-6 flex-wrap gap-1 sm:gap-2 lg:gap-3">
-                {galleryShots.map((shot, idx) => (
-                  <button
-                    key={shot.id}
-                    onClick={() => setActiveIndex(idx)}
-                    className={`h-6 w-6 sm:h-9 sm:w-9 lg:h-10 lg:w-10 rounded-full border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white ${
-                      idx === activeIndex
-                        ? "border-black dark:border-white bg-black/10 dark:bg-white/10 shadow-[0_0_0_1px_rgba(0,0,0,0.3)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]"
-                        : "border-black/30 dark:border-white/30 hover:border-black/60 dark:hover:border-white/60"
-                    }`}
-                    aria-label={`Show ${shot.title}`}
-                  />
-                ))}
+                {galleryShots.map((shot, idx) => {
+                  const birdIndex = shot.iconIndex !== undefined ? shot.iconIndex : (idx % birdIcons.length);
+                  const BirdIcon = birdIcons[birdIndex].icon;
+                  const colorIndex = birdColors[birdIndex] ?? birdIndex;
+                  const bgColor = dynamicColors[colorIndex];
+                  const isActive = idx === activeIndex;
+                  
+                  return (
+                    <motion.button
+                      key={shot.id}
+                      onClick={() => handleIndexChange(idx)}
+                      initial={false}
+                      animate={{
+                        scale: isActive ? 1.15 : 1,
+                        backgroundColor: isActive ? bgColor : "rgba(0, 0, 0, 0)",
+                        borderColor: isActive 
+                          ? "rgba(0, 0, 0, 1)" 
+                          : "rgba(0, 0, 0, 0.2)",
+                        rotate: isActive ? [0, -5, 5, -5, 0] : 0,
+                      }}
+                      whileHover={{
+                        scale: isActive ? 1.2 : 1.1,
+                        rotate: isActive ? 0 : [0, -8, 8, -8, 0],
+                        transition: {
+                          scale: {
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 17,
+                          },
+                          rotate: {
+                            type: "keyframes",
+                            duration: 0.6,
+                            ease: "easeInOut",
+                          },
+                        },
+                      }}
+                      whileTap={{
+                        scale: 0.9,
+                        transition: {
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 25,
+                        },
+                      }}
+                      transition={{
+                        scale: {
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 25,
+                        },
+                        backgroundColor: {
+                          duration: 0.8,
+                          ease: [0.4, 0, 0.2, 1],
+                        },
+                        borderColor: {
+                          duration: 0.6,
+                          ease: [0.4, 0, 0.2, 1],
+                        },
+                        rotate: {
+                          type: "keyframes",
+                          duration: 0.6,
+                          ease: "easeInOut",
+                        },
+                      }}
+                      className={`relative h-6 w-6 sm:h-9 sm:w-9 lg:h-10 lg:w-10 rounded-full border-2 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white overflow-hidden backdrop-blur-sm ${
+                        isActive
+                          ? "border-black dark:border-white shadow-xl dark:shadow-white/20"
+                          : "border-black/30 dark:border-white/30 hover:border-black/60 dark:hover:border-white/60"
+                      }`}
+                      aria-label={`Show ${shot.title}`}
+                    >
+                      {/* Animated background with smooth color transition */}
+                      <motion.div
+                        className="absolute inset-0 rounded-full"
+                        animate={{
+                          backgroundColor: isActive ? bgColor : "transparent",
+                          scale: isActive ? [1, 1.1, 1] : 1,
+                        }}
+                        transition={{
+                          backgroundColor: {
+                            duration: 1.2,
+                            ease: [0.4, 0, 0.2, 1],
+                          },
+                          scale: {
+                            duration: 2,
+                            repeat: isActive ? Infinity : 0,
+                            ease: "easeInOut",
+                          },
+                        }}
+                      />
+                      
+                      {/* Icon with smooth transitions */}
+                      <motion.div
+                        animate={{
+                          scale: isActive ? [1, 1.1, 1] : 1,
+                          rotate: isActive ? [0, 5, -5, 0] : 0,
+                        }}
+                        transition={{
+                          scale: {
+                            duration: 1.5,
+                            repeat: isActive ? Infinity : 0,
+                            ease: "easeInOut",
+                          },
+                          rotate: {
+                            type: "keyframes",
+                            duration: 2,
+                            repeat: isActive ? Infinity : 0,
+                            ease: "easeInOut",
+                          },
+                        }}
+                        className="relative z-10"
+                      >
+                        <BirdIcon 
+                          className={`w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 transition-all duration-500 ${
+                            isActive 
+                              ? "text-black/90 dark:text-white/95 drop-shadow-sm" 
+                              : "text-black/50 dark:text-white/50"
+                          }`}
+                        />
+                      </motion.div>
+                      
+                      {/* Enhanced glow effect for active state */}
+                      {isActive && (
+                        <motion.div
+                          className="absolute inset-0 rounded-full pointer-events-none"
+                          animate={{
+                            boxShadow: [
+                              `0 0 12px ${bgColor}, 0 0 24px ${bgColor}, inset 0 0 8px ${bgColor}`,
+                              `0 0 20px ${bgColor}, 0 0 40px ${bgColor}, inset 0 0 12px ${bgColor}`,
+                              `0 0 12px ${bgColor}, 0 0 24px ${bgColor}, inset 0 0 8px ${bgColor}`,
+                            ],
+                            opacity: [0.6, 1, 0.6],
+                          }}
+                          transition={{
+                            duration: 2.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          }}
+                        />
+                      )}
+                      
+                      {/* Subtle shimmer effect */}
+                      {isActive && (
+                        <motion.div
+                          className="absolute inset-0 rounded-full pointer-events-none"
+                          style={{
+                            background: `linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%)`,
+                          }}
+                          animate={{
+                            x: ["-100%", "200%"],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "linear",
+                            repeatDelay: 1,
+                          }}
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
               </div>
             </div>
           </div>

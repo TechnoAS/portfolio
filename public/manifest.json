@@ -1,0 +1,28 @@
+{
+  "name": "Siddhant Manna - Full Stack Developer Portfolio",
+  "short_name": "Siddhant Manna",
+  "description": "Professional portfolio of Siddhant Manna, a full stack developer specializing in React, Next.js, Node.js, and modern web technologies",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0C2B4E",
+  "theme_color": "#0C2B4E",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/iconLightMode.ico",
+      "sizes": "any",
+      "type": "image/x-icon",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/iconDark.ico",
+      "sizes": "any",
+      "type": "image/x-icon",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "developer", "technology"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
+

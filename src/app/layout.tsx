@@ -12,28 +12,96 @@ const brunoAceSC = Bruno_Ace_SC({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://siddhantmanna.dev";
+const siteName = "Siddhant Manna - Full Stack Developer";
+const siteDescription = "Professional portfolio of Siddhant Manna, a full stack developer and final-year IT student specializing in React, Next.js, Node.js, TypeScript, and modern web technologies. Explore innovative projects, technical skills, and development experience.";
+const authorName = "Siddhant Manna";
+const authorEmail = "official.siddhantmanna@gmail.com";
+const authorLinkedIn = "https://www.linkedin.com/in/siddhant-manna/";
+const authorGitHub = "https://github.com/TechnoAS";
+
 export const metadata: Metadata = {
-  title: "Portfolio | Full Stack Developer | Siddhant Manna",
-  description: "Professional portfolio of Siddhant Manna, a full stack developer specializing in React, Next.js, Node.js, and modern web technologies. Explore projects, skills, and experience.",
-  keywords: ["Full Stack Developer", "React", "Next.js", "TypeScript", "Web Developer", "Portfolio", "Siddhant Manna"],
-  authors: [{ name: "Siddhant Manna" }],
-  creator: "Siddhant Manna",
-  icons: {
-    icon: "/iconLightMode.png",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${siteName} | Portfolio`,
+    template: `%s | ${siteName}`,
   },
+  description: siteDescription,
+  keywords: [
+    "Siddhant Manna",
+    "Full Stack Developer",
+    "Web Developer",
+    "React Developer",
+    "Next.js Developer",
+    "TypeScript Developer",
+    "Node.js Developer",
+    "Frontend Developer",
+    "Backend Developer",
+    "JavaScript Developer",
+    "Portfolio",
+    "Software Engineer",
+    "IT Student",
+    "Meghnad Saha Institute of Technology",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "PostgreSQL",
+    "GraphQL",
+    "Firebase",
+    "Tailwind CSS",
+    "Framer Motion",
+    "Web Development",
+    "Software Development",
+    "Wildlife Photographer",
+  ],
+  authors: [
+    { 
+      name: authorName,
+      url: authorLinkedIn,
+    },
+  ],
+  creator: authorName,
+  publisher: authorName,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  icons: {
+    icon: [
+      { url: "/iconLightMode.ico", type: "image/x-icon" },
+      { url: "/iconDark.ico", type: "image/x-icon", media: "(prefers-color-scheme: dark)" },
+    ],
+    shortcut: "/iconLightMode.ico",
+    apple: "/iconLightMode.ico",
+  },
+  manifest: "/manifest.json",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://yourportfolio.com",
-    title: "Portfolio | Full Stack Developer | Siddhant Manna",
-    description: "Professional portfolio showcasing projects, skills, and experience as a full stack developer",
-    siteName: "Siddhant Manna Portfolio",
+    url: siteUrl,
+    siteName: siteName,
+    title: `${siteName} | Professional Portfolio`,
+    description: siteDescription,
+    images: [
+      {
+        url: "/portfolio.png",
+        width: 1200,
+        height: 630,
+        alt: `${authorName} - Full Stack Developer Portfolio`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Portfolio | Full Stack Developer | Siddhant Manna",
-    description: "Professional portfolio showcasing projects, skills, and experience",
-    creator: "@yourusername",
+    title: `${siteName} | Professional Portfolio`,
+    description: siteDescription,
+    images: ["/portfolio.png"],
+    creator: "@yourusername", // Update with your actual Twitter handle
   },
   robots: {
     index: true,
@@ -45,6 +113,15 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
+  category: "Portfolio",
+  classification: "Portfolio Website",
+  other: {
+    "theme-color": "#0C2B4E",
+    "color-scheme": "dark light",
   },
 };
 

@@ -5,41 +5,65 @@ import { useEffect } from "react";
 export default function FaviconUpdater() {
   useEffect(() => {
     const updateFavicon = () => {
-      // Check if dark mode is active
-      const isDark = document.documentElement.classList.contains("dark");
+      // Use system/desktop theme preference for favicon, not webpage theme
+      // This way: desktop light mode = light favicon, desktop dark mode = dark favicon
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const isMobile = window.matchMedia("(max-width: 640px)").matches;
       
-      // Light mode → iconLightMode.png
-      // Dark mode → iconDarkMode.png
-      const iconPath = isDark ? "/iconDarkMode.png" : "/iconLightMode.png";
+      // Mobile always uses dark favicon, desktop uses system preference
+      const isDark = isMobile || prefersDark;
+
+      const lightIcon = "/iconLightMode.ico";
+      const darkIcon = "/iconDark.ico";
+
+      // Remove all existing favicon links (including those from Next.js metadata)
+      const existingFavicons = document.querySelectorAll(
+        "link[rel='icon'], link[rel='shortcut icon'], link[rel='apple-touch-icon']"
+      );
+      existingFavicons.forEach((link) => {
+        const rel = link.getAttribute("rel");
+        if (rel === "icon" || rel === "shortcut icon") {
+          link.remove();
+        }
+      });
+
+      // Create new favicon link with proper attributes
+      const favicon = document.createElement("link");
+      favicon.rel = "icon";
+      favicon.type = "image/x-icon";
+      favicon.href = isDark ? darkIcon : lightIcon;
       
-      // Remove all existing favicon links
-      const existingLinks = document.querySelectorAll("link[rel='icon'], link[rel='shortcut icon']");
-      existingLinks.forEach(link => link.remove());
+      // Also add shortcut icon for better browser compatibility
+      const shortcutIcon = document.createElement("link");
+      shortcutIcon.rel = "shortcut icon";
+      shortcutIcon.type = "image/x-icon";
+      shortcutIcon.href = isDark ? darkIcon : lightIcon;
       
-      // Create new favicon link
-      const link = document.createElement("link");
-      link.rel = "icon";
-      link.type = "image/png";
-      link.href = iconPath;
-      document.head.appendChild(link);
+      document.head.appendChild(favicon);
+      document.head.appendChild(shortcutIcon);
     };
 
-    // Initial update
+    // Initial update - run immediately and also after a short delay
     updateFavicon();
+    const timeoutId = setTimeout(updateFavicon, 100);
 
-    // Watch for class changes on html element (when theme toggles)
-    const observer = new MutationObserver(updateFavicon);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
+    // System theme change
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleMediaChange = () => {
+      updateFavicon();
+    };
+    mq.addEventListener("change", handleMediaChange);
 
-    // Listen to custom event for theme changes
-    window.addEventListener("themechange", updateFavicon);
+    // Also listen for resize to handle mobile/desktop switching
+    const handleResize = () => {
+      updateFavicon();
+    };
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      observer.disconnect();
-      window.removeEventListener("themechange", updateFavicon);
+      clearTimeout(timeoutId);
+      mq.removeEventListener("change", handleMediaChange);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
