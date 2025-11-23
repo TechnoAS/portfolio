@@ -204,10 +204,25 @@ export default function Experiments() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [birdColors, setBirdColors] = useState<number[]>([]);
   const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
+  const [isPaused, setIsPaused] = useState(false);
   const carouselTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const imageCacheRef = useRef<Set<string>>(new Set());
+
+  // Preload all images
+  useEffect(() => {
+    galleryShots.forEach((shot) => {
+      if (!imageCacheRef.current.has(shot.image)) {
+        const img = new window.Image();
+        img.src = shot.image;
+        imageCacheRef.current.add(shot.image);
+      }
+    });
+  }, []);
 
   // Carousel auto-rotation
   useEffect(() => {
+    if (isPaused) return;
+
     const startCarousel = () => {
       // Clear any existing timer
       if (carouselTimerRef.current) {
@@ -228,20 +243,34 @@ export default function Experiments() {
         clearInterval(carouselTimerRef.current);
       }
     };
-  }, []);
+  }, [isPaused]);
 
   const handleIndexChange = (newIndex: number) => {
     setDirection(newIndex > activeIndex ? 1 : -1);
     setActiveIndex(newIndex);
     
+    // Preload adjacent images
+    const nextIndex = (newIndex + 1) % galleryShots.length;
+    const prevIndex = (newIndex - 1 + galleryShots.length) % galleryShots.length;
+    [nextIndex, prevIndex].forEach((idx) => {
+      const shot = galleryShots[idx];
+      if (!imageCacheRef.current.has(shot.image)) {
+        const img = new window.Image();
+        img.src = shot.image;
+        imageCacheRef.current.add(shot.image);
+      }
+    });
+    
     // Restart carousel timer after manual interaction
-    if (carouselTimerRef.current) {
+    if (!isPaused && carouselTimerRef.current) {
       clearInterval(carouselTimerRef.current);
     }
-    carouselTimerRef.current = setInterval(() => {
-      setDirection(1);
-      setActiveIndex((prev) => (prev + 1) % galleryShots.length);
-    }, 4000);
+    if (!isPaused) {
+      carouselTimerRef.current = setInterval(() => {
+        setDirection(1);
+        setActiveIndex((prev) => (prev + 1) % galleryShots.length);
+      }, 4000);
+    }
   };
 
   // Initialize and animate bird colors with smooth transitions
@@ -260,6 +289,17 @@ export default function Experiments() {
     return () => clearInterval(colorTimer);
   }, []);
 
+  // Preload next image when active index changes
+  useEffect(() => {
+    const nextIndex = (activeIndex + 1) % galleryShots.length;
+    const nextShot = galleryShots[nextIndex];
+    if (!imageCacheRef.current.has(nextShot.image)) {
+      const img = new window.Image();
+      img.src = nextShot.image;
+      imageCacheRef.current.add(nextShot.image);
+    }
+  }, [activeIndex]);
+
   const activeShot = galleryShots[activeIndex];
 
   return (
@@ -267,51 +307,42 @@ export default function Experiments() {
       id="photography"
       className="relative w-full overflow-hidden bg-white dark:bg-black text-black dark:text-white min-h-screen lg:h-screen"
     >
-      <div className="absolute inset-0 overflow-hidden" style={{ perspective: "1000px" }}>
-        <AnimatePresence mode="wait" initial={false}>
+      <div 
+        className="absolute inset-0 overflow-hidden" 
+        style={{ perspective: "1000px" }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <AnimatePresence initial={false}>
           <motion.div
             key={activeShot.image}
             initial={{ 
               opacity: 0, 
-              scale: 1.08,
-              filter: "blur(8px) brightness(0.8)",
-              x: direction * 30,
-              rotateY: direction * 5,
+              scale: 1.05,
+              filter: "blur(4px) brightness(0.9)",
             }}
             animate={{ 
               opacity: 1, 
               scale: 1,
               filter: "blur(0px) brightness(1)",
-              x: 0,
-              rotateY: 0,
             }}
             exit={{ 
               opacity: 0, 
-              scale: 0.95,
-              filter: "blur(6px) brightness(0.9)",
-              x: -direction * 30,
-              rotateY: -direction * 5,
+              scale: 1.02,
+              filter: "blur(3px) brightness(0.95)",
             }}
             transition={{ 
-              duration: 0.7,
+              duration: 0.8,
               ease: [0.4, 0, 0.2, 1],
               opacity: { 
-                duration: 0.6,
+                duration: 0.8,
                 ease: [0.4, 0, 0.2, 1],
               },
               scale: { 
-                duration: 0.7,
+                duration: 0.8,
                 ease: [0.4, 0, 0.2, 1],
               },
               filter: { 
-                duration: 0.6,
-                ease: [0.4, 0, 0.2, 1],
-              },
-              x: {
-                duration: 0.7,
-                ease: [0.4, 0, 0.2, 1],
-              },
-              rotateY: {
                 duration: 0.7,
                 ease: [0.4, 0, 0.2, 1],
               },
@@ -321,10 +352,10 @@ export default function Experiments() {
           >
             <motion.div
               className="absolute inset-0"
-              initial={{ scale: 1.1 }}
+              initial={{ scale: 1.02 }}
               animate={{ scale: 1 }}
               transition={{
-                duration: 0.7,
+                duration: 0.8,
                 ease: [0.4, 0, 0.2, 1],
               }}
             >
@@ -335,6 +366,8 @@ export default function Experiments() {
                 priority
                 sizes="100vw"
                 className="object-contain sm:object-cover object-center"
+                quality={95}
+                loading="eager"
               />
             </motion.div>
             

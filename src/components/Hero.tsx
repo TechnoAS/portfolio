@@ -238,7 +238,7 @@ export default function Hero() {
                 className="rounded-full w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-sm sm:text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-primary/90"
               >
                 <Link
-                  href="/resume.pdf"
+                  href="/Siddhant Manna Java Dev.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="no-underline"
