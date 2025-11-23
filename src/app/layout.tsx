@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Bruno_Ace_SC } from "next/font/google";
+// Import global styles (Next.js global CSS); TypeScript may complain about side-effect CSS imports
+// @ts-ignore: Module declaration for '*.css' is missing
 import "./globals.css";
 import FaviconUpdater from "@/components/FaviconUpdater";
 import Loading from "@/components/Loading";
@@ -92,7 +94,7 @@ export const metadata: Metadata = {
         url: "/portfolio.png",
         width: 1200,
         height: 630,
-        alt: `${authorName} - Full Stack Developer Portfolio`,
+        alt: `${"Siddhant Manna"} - Full Stack Developer Portfolio`,
       },
     ],
   },
@@ -100,7 +102,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteName} | Professional Portfolio`,
     description: siteDescription,
-    images: ["/portfolio.png"],
+    images: ["./img/portfolio.png"],
     creator: "@yourusername", // Update with your actual Twitter handle
   },
   robots: {
